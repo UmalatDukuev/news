@@ -10,4 +10,5 @@ func main() {
 		fmt.Fprintf(w, "Server is running...")
 	})
 	http.ListenAndServe(":8000", nil)
+	return
 }
