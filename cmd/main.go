@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 	"news/internal/handler"
 	"news/internal/repository"
@@ -10,12 +10,14 @@ import (
 
 func main() {
 	repo := repository.NewRepository()
-	service := service.NewService()
-	handler := handler.NewHandler()
+	service := service.NewService(repo)
+	handler := handler.NewHandler(service)
 
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "Server is running...")
-	})
-	http.ListenAndServe(":8000", nil)
-	return
+	handler.InitRoutes()
+
+	// Запускаем сервер
+	log.Println("Server is running on port 8000")
+	if err := http.ListenAndServe(":8000", nil); err != nil {
+		log.Fatalf("could not start server: %s\n", err.Error())
+	}
 }
