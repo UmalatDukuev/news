@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) NOT NULL,
-    `password` VARCHAR(25) NOT NULL,
+    password VARCHAR(25) NOT NULL,
 );
 CREATE TABLE IF NOT EXISTS posts (
     id SERIAL PRIMARY KEY,
