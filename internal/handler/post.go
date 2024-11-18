@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 	"news/models"
 
@@ -14,18 +15,16 @@ func (h *Handler) homePage(c *gin.Context) {
 func (h *Handler) CreatePost(c *gin.Context) {
 	var post models.Post
 
-	// Пробуем привязать данные из тела запроса к модели Post
 	if err := c.ShouldBindJSON(&post); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
 		return
 	}
+	fmt.Println(88888888888)
 
-	// Вызов сервиса для создания поста
 	if err := h.service.PostService.CreatePost(&post); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	// Возвращаем успешный ответ с созданным постом
 	c.JSON(http.StatusOK, post)
 }

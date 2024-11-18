@@ -25,8 +25,10 @@ func Run() {
 	repo := repository.NewRepository(db)
 	service := service.NewService(repo)
 	handler := handler.NewHandler(service)
+
 	router := router()
-	handler.InitRoutes(router, service)
+	handler.InitRoutes(router)
+
 	router.Run(":8000")
 
 	log.Println("Server is running on port 8000")
