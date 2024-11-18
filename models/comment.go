@@ -1,3 +1,7 @@
+package models
+
+import "time"
+
 type Comment struct {
 	ID        int64     `json:"id" db:"id"`
 	PostID    int64     `json:"post_id" db:"post_id"`
