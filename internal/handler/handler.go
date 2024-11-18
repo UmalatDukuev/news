@@ -22,18 +22,13 @@ func (h *Handler) InitRoutes(router *gin.Engine, service *service.Service) {
 		// Эндпоинт для главной страницы
 		v1.GET("/", h.homePage)
 
-		// Группа маршрутов для постов
-		// posts := v1.Group("/posts")
-		// {
-		// 	posts.POST("/", h.CreatePost)      // Создать пост
-		// 	posts.GET("/", h.GetPosts)         // Получить список постов
-		// 	posts.GET("/:id", h.GetPost)       // Получить пост по ID
-		// 	posts.PUT("/:id", h.UpdatePost)    // Обновить пост
-		// 	posts.DELETE("/:id", h.DeletePost) // Удалить пост
-		// }
+		posts := v1.Group("/posts")
+		{
+			posts.POST("/", h.CreatePost) // Создать пост
+			// 	// posts.GET("/", h.GetPosts)         // Получить список постов
+			// 	// posts.GET("/:id", h.GetPost)       // Получить пост по ID
+			// 	// posts.PUT("/:id", h.UpdatePost)    // Обновить пост
+			// 	// posts.DELETE("/:id", h.DeletePost) // Удалить пост
+		}
 	}
-}
-
-func (h *Handler) homePage(c *gin.Context) {
-	c.JSON(200, gin.H{"message": "Server is running..."})
 }

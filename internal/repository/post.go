@@ -15,6 +15,6 @@ func NewPostRepository(db *sql.DB) *PostRepository {
 }
 
 func (r *PostRepository) CreatePost(post *models.Post) error {
-	fmt.Println(111111111)
+	fmt.Println(55555555555555555)
 	return nil
 }
