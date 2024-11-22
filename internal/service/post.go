@@ -11,8 +11,10 @@ type PostService struct {
 }
 
 func NewPostService(repo *repository.PostRepository) *PostService {
-	fmt.Println(77777777777)
-
+	if repo == nil {
+		fmt.Println("Error: Repository is nil in NewPostService!")
+	}
+	fmt.Println("PostService created successfully.")
 	return &PostService{repo: repo}
 }
 
@@ -20,8 +22,6 @@ func (s *PostService) CreatePost(post *models.Post) error {
 	if post.Title == "" || post.Content == "" {
 		return fmt.Errorf("title and content are required")
 	}
-	fmt.Println(444444444)
-	fmt.Println(post)
 	err := s.repo.CreatePost(post)
 	if err != nil {
 		fmt.Println("Error in CreatePost:", err)

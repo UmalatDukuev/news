@@ -1,7 +1,6 @@
 package handler
 
 import (
-	"fmt"
 	"net/http"
 	"news/models"
 
@@ -19,12 +18,9 @@ func (h *Handler) CreatePost(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
 		return
 	}
-	fmt.Println(88888888888)
-
 	if err := h.service.PostService.CreatePost(&post); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
-
 	c.JSON(http.StatusOK, post)
 }

@@ -2,7 +2,6 @@ package app
 
 import (
 	"log"
-	"net/http"
 	"news/internal/handler"
 	"news/internal/repository"
 	"news/internal/service"
@@ -13,31 +12,31 @@ import (
 )
 
 func Run() {
-
 	cfg, err := repository.LoadDBConfig()
 	if err != nil {
-		log.Fatalf("failed to initialize db: %s", err.Error())
+		log.Fatalf("Failed to load DB config: %s", err.Error())
 	}
+
 	db, err := utils.InitDB(cfg)
 	if err != nil {
 		log.Fatalf("Could not connect to database: %v", err)
 	}
+	log.Println("Database connection established.")
+
 	repo := repository.NewRepository(db)
 	service := service.NewService(repo)
 	handler := handler.NewHandler(service)
 
-	router := router()
+	router := initRouter()
 	handler.InitRoutes(router)
 
-	router.Run(":8000")
-
 	log.Println("Server is running on port 8000")
-	if err := http.ListenAndServe(":8000", nil); err != nil {
-		log.Fatalf("could not start server: %s\n", err.Error())
+	if err := router.Run(":8000"); err != nil {
+		log.Fatalf("Could not start server: %s", err.Error())
 	}
 }
 
-func router() *gin.Engine {
+func initRouter() *gin.Engine {
 	var r *gin.Engine
 
 	if env := os.Getenv("APP_ENV"); env == "prod" {
