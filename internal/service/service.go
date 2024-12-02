@@ -19,3 +19,7 @@ func NewService(repo *repository.Repository) *Service {
 type Post interface {
 	CreatePost(post *models.Post) error
 }
+
+type User interface {
+	CreateUser(user *models.User) error
+}

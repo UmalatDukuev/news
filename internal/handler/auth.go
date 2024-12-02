@@ -2,13 +2,23 @@ package handler
 
 import (
 	"fmt"
-	"news/internal/handler/request"
+	"net/http"
+	"news/models"
 
 	"github.com/gin-gonic/gin"
 )
 
 func (h *Handler) login(c *gin.Context) {
-	var req request.Login
-	_ = c.ShouldBindJSON(&req)
-	fmt.Println(req)
+
+}
+
+func (h *Handler) signup(c *gin.Context) {
+	var user models.User
+
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request body"})
+		return
+	}
+	if 
+	fmt.Println(user.Password)
 }
