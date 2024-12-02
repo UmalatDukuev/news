@@ -19,9 +19,9 @@ func (h *Handler) InitRoutes(router *gin.Engine) {
 	{
 		auth.POST("/login", h.login)
 		auth.POST("/signup", h.signup)
-		// 	// posts.GET("/:id", h.GetPost)
-		// 	// posts.PUT("/:id", h.UpdatePost)
-		// 	// posts.DELETE("/:id", h.DeletePost)
+		// posts.GET("/:id", h.GetPost)
+		// posts.PUT("/:id", h.UpdatePost)
+		// posts.DELETE("/:id", h.DeletePost)
 	}
 
 	v1 := router.Group("/v1")
@@ -30,10 +30,10 @@ func (h *Handler) InitRoutes(router *gin.Engine) {
 		posts := v1.Group("/posts")
 		{
 			posts.POST("/", h.createPost)
-			// 	// posts.GET("/", h.GetPosts)
-			// 	// posts.GET("/:id", h.GetPost)
-			// 	// posts.PUT("/:id", h.UpdatePost)
-			// 	// posts.DELETE("/:id", h.DeletePost)
+			// posts.GET("/", h.GetPosts)
+			// posts.GET("/:id", h.GetPost)
+			// posts.PUT("/:id", h.UpdatePost)
+			// posts.DELETE("/:id", h.DeletePost)
 		}
 	}
 }
