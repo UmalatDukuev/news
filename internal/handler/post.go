@@ -11,7 +11,7 @@ func (h *Handler) homePage(c *gin.Context) {
 	c.JSON(200, gin.H{"message": "Server is running..."})
 }
 
-func (h *Handler) CreatePost(c *gin.Context) {
+func (h *Handler) createPost(c *gin.Context) {
 	var post models.Post
 
 	if err := c.ShouldBindJSON(&post); err != nil {
