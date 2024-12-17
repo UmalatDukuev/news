@@ -21,6 +21,10 @@ func NewRepository(db *sqlx.DB) *Repository {
 	}
 }
 
+type User interface {
+	CreateUser(user *models.User) error
+}
+
 type Post interface {
 	CreatePost(post *models.Post) error
 }
