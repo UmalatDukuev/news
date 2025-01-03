@@ -9,6 +9,7 @@ import (
 
 const (
 	usersTable = "users"
+	postsTable = "posts"
 )
 
 type Config struct {

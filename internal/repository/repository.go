@@ -7,6 +7,11 @@ import (
 
 type Repository struct {
 	Authorization
+	Post
+}
+
+type Post interface {
+	CreatePost(news.Post) (int, error)
 }
 
 type Authorization interface {
@@ -17,5 +22,6 @@ type Authorization interface {
 func NewRepository(db *sqlx.DB) *Repository {
 	return &Repository{
 		Authorization: NewAuthPostgres(db),
+		Post:          NewPostPostgres(db),
 	}
 }
