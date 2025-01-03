@@ -12,7 +12,9 @@ type Authorization interface {
 }
 
 type Post interface {
-	CreatePost(models.Post) (int, error)
+	Create(models.Post) (int, error)
+	GetById(int) (models.Post, error)
+	GetAll() ([]models.Post, error)
 }
 
 type Service struct {
