@@ -3,7 +3,7 @@ package repository
 import (
 	"fmt"
 
-	"github.com/UmalatDukuev/news"
+	"github.com/UmalatDukuev/news/models"
 	"github.com/jmoiron/sqlx"
 )
 
@@ -15,7 +15,7 @@ func NewPostPostgres(db *sqlx.DB) *PostPostgres {
 	return &PostPostgres{db: db}
 }
 
-func (r *PostPostgres) CreatePost(post news.Post) (int, error) {
+func (r *PostPostgres) CreatePost(post models.Post) (int, error) {
 	var id int
 	query := fmt.Sprintf("INSERT INTO %s (title, description) values ($1, $2) RETURNING id", postsTable)
 

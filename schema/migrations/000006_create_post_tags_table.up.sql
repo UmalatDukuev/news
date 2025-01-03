@@ -1,0 +1,5 @@
+CREATE TABLE post_tags (
+    id SERIAL PRIMARY KEY,
+    post_id INT NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
+    tag_id INT NOT NULL REFERENCES tags(id) ON DELETE CASCADE
+);

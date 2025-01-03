@@ -1,18 +1,18 @@
 package service
 
 import (
-	"github.com/UmalatDukuev/news"
 	"github.com/UmalatDukuev/news/internal/repository"
+	"github.com/UmalatDukuev/news/models"
 )
 
 type Authorization interface {
-	CreateUser(news.User) (int, error)
+	CreateUser(models.User) (int, error)
 	GenerateToken(username, password string) (string, error)
 	ParseToken(accessToken string) (int, error)
 }
 
 type Post interface {
-	CreatePost(news.Post) (int, error)
+	CreatePost(models.Post) (int, error)
 }
 
 type Service struct {

@@ -1,0 +1,7 @@
+CREATE TABLE likes (
+    id SERIAL PRIMARY KEY,
+    post_id INT NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
+    user_id INT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    type VARCHAR(10) NOT NULL CHECK (type IN ('like', 'dislike')),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

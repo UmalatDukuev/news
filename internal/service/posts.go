@@ -1,8 +1,8 @@
 package service
 
 import (
-	"github.com/UmalatDukuev/news"
 	"github.com/UmalatDukuev/news/internal/repository"
+	"github.com/UmalatDukuev/news/models"
 )
 
 type PostService struct {
@@ -15,6 +15,6 @@ func NewPostService(repo repository.Post) *PostService {
 	}
 }
 
-func (s *PostService) CreatePost(post news.Post) (int, error) {
+func (s *PostService) CreatePost(post models.Post) (int, error) {
 	return s.repo.CreatePost(post)
 }
