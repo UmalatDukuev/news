@@ -1,8 +1,6 @@
 package service
 
 import (
-	"fmt"
-
 	"github.com/UmalatDukuev/news/internal/repository"
 	"github.com/UmalatDukuev/news/models"
 )
@@ -18,7 +16,5 @@ func NewCommentService(repo repository.Comment) *CommentService {
 }
 
 func (s *CommentService) Create(comment models.Comment) (int, error) {
-	fmt.Println("Service: comment created")
 	return s.repo.Create(comment)
-
 }

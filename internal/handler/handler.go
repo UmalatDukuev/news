@@ -27,17 +27,17 @@ func (h *Handler) InitRoutes() *gin.Engine {
 		posts.POST("/", h.createPost)
 		posts.GET("/", h.getAllPosts)
 		posts.GET("/:id", h.getPostById)
-		likes := posts.Group("/:id/likes")
+		likes := posts.Group("/:id/likes", h.userIdentity)
 		{
 			likes.POST("/", h.createLike)
 		}
 
-		comments := posts.Group("/:id/comments")
+		comments := posts.Group("/:id/comments", h.userIdentity)
 		{
 			comments.POST("/", h.createComment)
 		}
 
-		tags := posts.Group("/:id/tags")
+		tags := posts.Group("/:id/tags", h.userIdentity)
 		{
 			tags.POST("/", h.createTag)
 		}

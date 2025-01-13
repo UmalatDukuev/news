@@ -2,6 +2,7 @@ package repository
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/UmalatDukuev/news/models"
 	"github.com/jmoiron/sqlx"
@@ -16,6 +17,12 @@ func NewCommentPostgres(db *sqlx.DB) *CommentPostgres {
 }
 
 func (c *CommentPostgres) Create(comment models.Comment) (int, error) {
-	fmt.Println("REPO: comment created")
-	return 143, nil
+	comment.CreatedAt = time.Now()
+	var id int
+	query := fmt.Sprintf("INSERT INTO %s (post_id, user_id, content, created_at) values ($1, $2, $3, $4) RETURNING id", commentsTable)
+	row := c.db.QueryRow(query, comment.PostID, comment.UserID, comment.Content, comment.CreatedAt)
+	if err := row.Scan(&id); err != nil {
+		return 0, err
+	}
+	return id, nil
 }

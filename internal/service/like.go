@@ -1,8 +1,6 @@
 package service
 
 import (
-	"fmt"
-
 	"github.com/UmalatDukuev/news/internal/repository"
 	"github.com/UmalatDukuev/news/models"
 )
@@ -18,7 +16,5 @@ func NewLikeService(repo repository.Like) *LikeService {
 }
 
 func (s *LikeService) Create(like models.Like) (int, error) {
-	fmt.Println("Service: like created")
 	return s.repo.Create(like)
-
 }

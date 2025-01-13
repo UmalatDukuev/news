@@ -1,7 +1,7 @@
 package handler
 
 import (
-	"fmt"
+	"strconv"
 
 	"github.com/UmalatDukuev/news/models"
 	"github.com/gin-gonic/gin"
@@ -9,9 +9,10 @@ import (
 
 func (h *Handler) createLike(c *gin.Context) {
 	postID := c.Param("id")
+	userID, _ := getUserId(c)
 	var like models.Like
-	fmt.Print("ID: ")
-	fmt.Println(postID)
+	like.PostID, _ = strconv.Atoi(postID)
+	like.UserID = userID
 	_, _ = h.services.Like.Create(like)
 
 }
