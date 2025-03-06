@@ -15,6 +15,7 @@ type Post interface {
 	Create(models.Post) (int, error)
 	GetById(int) (models.Post, error)
 	GetAll() ([]models.Post, error)
+	Update(post models.Post) error
 }
 
 type Like interface {

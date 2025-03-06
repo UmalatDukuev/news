@@ -22,22 +22,24 @@ func (h *Handler) InitRoutes() *gin.Engine {
 
 	}
 
-	posts := router.Group("/posts")
+	posts := router.Group("/posts", h.userIdentity)
 	{
 		posts.POST("/", h.createPost)
 		posts.GET("/", h.getAllPosts)
 		posts.GET("/:id", h.getPostById)
-		likes := posts.Group("/:id/likes", h.userIdentity)
+		posts.PUT("/:id", h.updatePost)
+
+		likes := posts.Group("/:id/likes")
 		{
 			likes.POST("/", h.createLike)
 		}
 
-		comments := posts.Group("/:id/comments", h.userIdentity)
+		comments := posts.Group("/:id/comments")
 		{
 			comments.POST("/", h.createComment)
 		}
 
-		tags := posts.Group("/:id/tags", h.userIdentity)
+		tags := posts.Group("/:id/tags")
 		{
 			tags.POST("/", h.createTag)
 		}
