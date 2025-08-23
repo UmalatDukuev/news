@@ -9,6 +9,7 @@ type Authorization interface {
 	CreateUser(models.User) (int, error)
 	GenerateToken(username, password string) (string, error)
 	ParseToken(accessToken string) (int, error)
+	GetUser(username string) (models.User, error)
 }
 
 type Post interface {
@@ -20,6 +21,7 @@ type Post interface {
 
 type Like interface {
 	Create(models.Like) (int, error)
+	GetAllPostLikes(postID int) ([]models.LikeOnPost, error)
 }
 
 type Comment interface {

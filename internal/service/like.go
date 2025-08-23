@@ -18,3 +18,7 @@ func NewLikeService(repo repository.Like) *LikeService {
 func (s *LikeService) Create(like models.Like) (int, error) {
 	return s.repo.Create(like)
 }
+
+func (s *LikeService) GetAllPostLikes(postID int) ([]models.LikeOnPost, error) {
+	return s.repo.GetAllPostLikes(postID)
+}

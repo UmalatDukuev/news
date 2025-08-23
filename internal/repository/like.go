@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/UmalatDukuev/news/internal/errs"
 	"github.com/UmalatDukuev/news/models"
 	"github.com/jmoiron/sqlx"
 )
@@ -25,4 +26,27 @@ func (c *LikePostgres) Create(like models.Like) (int, error) {
 		return 0, err
 	}
 	return id, nil
+}
+
+func (c *LikePostgres) GetAllPostLikes(postID int) ([]models.LikeOnPost, error) {
+	query := fmt.Sprintf("SELECT * FROM %s WHERE post_id = %d", likesTable, postID)
+	rows, err := c.db.Query(query, postID)
+	if err != nil {
+		return nil, errs.ErrSQLQuery
+	}
+	defer rows.Close()
+	for rows.Next() {
+		var (
+			postID     int
+			userID     int
+			created_at string
+		)
+		if err := rows.Scan(&postID, &userID, &created_at); err != nil {
+			return nil, errs.ErrScanningRows
+		}
+		fmt.Println(postID, userID, created_at)
+
+	}
+	likes := make([]models.LikeOnPost, 5)
+	return likes, nil
 }

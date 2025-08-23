@@ -8,3 +8,8 @@ type Like struct {
 	UserID    int       `json:"user_id" db:"user_id"`
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
 }
+
+type LikeOnPost struct {
+	UserID    int       `json:"user_id" db:"user_id"`
+	CreatedAt time.Time `json:"created_at" db:"created_at"`
+}

@@ -12,6 +12,13 @@ import (
 	"github.com/spf13/viper"
 )
 
+// @title Blueprint Swagger API
+// @version 1.0
+// @description Swagger API for News Service.
+// @termsOfService http://swagger.io/terms/
+// @contact.name API Support
+// @contact.email dukuev037@mail.ru
+// @BasePath /api/v1
 func main() {
 	if err := initConfig(); err != nil {
 		log.Fatalf("error initializing configs: %s", err.Error())

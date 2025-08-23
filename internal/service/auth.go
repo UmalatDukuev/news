@@ -42,8 +42,17 @@ func generatePasswordHash(password string) string {
 	return fmt.Sprintf("%x", hash.Sum([]byte(salt)))
 }
 
+func (s *AuthService) GetUser(username string) (models.User, error) {
+	user, err := s.repo.GetUser(username)
+	if err != nil {
+		fmt.Println(22222)
+	}
+	return user, nil
+}
+
 func (s *AuthService) GenerateToken(username, password string) (string, error) {
-	user, err := s.repo.GetUser(username, generatePasswordHash(password))
+	// user, err := s.repo.GetUser(username, generatePasswordHash(password))
+	user, err := s.repo.GetUser(username)
 	if err != nil {
 		return "", err
 	}

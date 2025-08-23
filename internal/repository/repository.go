@@ -22,11 +22,13 @@ type Post interface {
 
 type Authorization interface {
 	CreateUser(models.User) (int, error)
-	GetUser(username, password string) (models.User, error)
+	// GetUser(username, password string) (models.User, error)
+	GetUser(username string) (models.User, error)
 }
 
 type Like interface {
 	Create(like models.Like) (int, error)
+	GetAllPostLikes(postID int) ([]models.LikeOnPost, error)
 }
 
 type Comment interface {
