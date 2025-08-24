@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/UmalatDukuev/news/internal/errs"
 	"github.com/UmalatDukuev/news/internal/repository"
 	"github.com/UmalatDukuev/news/models"
 	"github.com/golang-jwt/jwt"
@@ -55,6 +56,14 @@ func (s *AuthService) GenerateToken(username, password string) (string, error) {
 	user, err := s.repo.GetUser(username)
 	if err != nil {
 		return "", err
+	}
+
+	ok, err := s.repo.СheckPassword(username, generatePasswordHash(password))
+	if err != nil {
+		return "", err
+	}
+	if !ok {
+		return "", errs.ErrInvalidCredentials
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, &tokenClaims{

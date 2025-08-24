@@ -1,0 +1,45 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    container_name: news-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: news
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  migrate:
+    image: migrate/migrate:v4.17.0
+    restart: on-failure
+    volumes:
+      - ./schema/migrations:/migrations
+    command: [
+      "-path", "/migrations",
+      "-database", "postgres://postgres:pass@db:5432/news?sslmode=disable",
+      "up"
+    ]
+    depends_on:
+      - db
+
+  app:
+    build: .
+    container_name: news-app
+    restart: always
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+      - migrate
+    environment:
+      DB_PASSWORD: pass
+    volumes:
+      - .:/app
+
+volumes:
+  pgdata:

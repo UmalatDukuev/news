@@ -2,6 +2,7 @@ package handler
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -66,7 +67,10 @@ func (h *Handler) signIn(c *gin.Context) {
 	if err != nil {
 		switch {
 		case errors.Is(err, errs.ErrUserNotFound):
-			newErrorResponse(c, http.StatusUnauthorized, "invalid username or password")
+			newErrorResponse(c, http.StatusBadRequest, "invalid username or password")
+		case errors.Is(err, errs.ErrInvalidCredentials):
+			newErrorResponse(c, http.StatusBadRequest, "invalid username or password")
+
 		default:
 			newErrorResponse(c, http.StatusInternalServerError, "internal server error")
 		}

@@ -68,6 +68,19 @@ func (r *AuthPostgres) GetUser(username string) (models.User, error) {
 		}
 		return user, err
 	}
-
 	return user, nil
+}
+
+func (r *AuthPostgres) СheckPassword(username, passwordHash string) (bool, error) {
+	query := fmt.Sprintf("select password_hash from %s where username = $1", usersTable)
+	passwordH := ""
+	err := r.db.Get(&passwordH, query, username)
+	if errors.Is(err, sql.ErrNoRows) {
+		return false, errs.ErrUserNotFound
+	}
+
+	if passwordH == passwordHash {
+		return true, nil
+	}
+	return false, nil
 }

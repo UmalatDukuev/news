@@ -24,8 +24,10 @@ func main() {
 		log.Fatalf("error initializing configs: %s", err.Error())
 	}
 
-	if err := godotenv.Load(); err != nil {
-		log.Fatalf("error loading env variables: %s", err.Error())
+	if _, err := os.Stat(".env"); err == nil {
+		if err := godotenv.Load(); err != nil {
+			log.Printf("warning: could not load .env file: %s", err.Error())
+		}
 	}
 
 	db, err := repository.NewPostgresDB(repository.Config{
@@ -36,6 +38,10 @@ func main() {
 		SSLMode:  viper.GetString("db.sslmode"),
 		Password: os.Getenv("DB_PASSWORD"),
 	})
+	// db_pass := os.Getenv("...")
+	// db.Password = db_pass
+	// db_pass := os.Getenv("DB_PASSWORD")
+	// repository.Config.Password = db_pass
 	if err != nil {
 		log.Fatalf("failed to initialize db: %s", err.Error())
 	}
@@ -46,7 +52,8 @@ func main() {
 	handlers := handler.NewHandler(services)
 	srv := new(news.Server)
 
-	if err := srv.Run("8000", handlers.InitRoutes()); err != nil {
+	port := viper.GetString("port")
+	if err := srv.Run(port, handlers.InitRoutes()); err != nil {
 		log.Printf("%s", err)
 	}
 }
