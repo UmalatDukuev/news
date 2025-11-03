@@ -1,53 +1,50 @@
 package handler
 
 import (
-	"errors"
-	"net/http"
-	"strings"
-
+	"github.com/UmalatDukuev/news/internal/errs"
+	"github.com/UmalatDukuev/news/internal/utils"
 	"github.com/gin-gonic/gin"
 )
 
-const (
-	authorizationHeader = "Authorization"
-	userCtx             = "userId"
-)
+const userCtx = "userId"
 
 func (h *Handler) userIdentity(c *gin.Context) {
-	header := c.GetHeader(authorizationHeader)
-	if header == "" {
-		newErrorResponse(c, http.StatusUnauthorized, "empty auth header")
-		return
-	}
+	accessCookie, err := c.Request.Cookie("access_token")
 
-	headerParts := strings.Split(header, " ")
-	if len(headerParts) != 2 || headerParts[0] != "Bearer" {
-		newErrorResponse(c, http.StatusUnauthorized, "invalid auth header")
-		return
-	}
-
-	if len(headerParts[1]) == 0 {
-		newErrorResponse(c, http.StatusUnauthorized, "token is empty")
-		return
-	}
-
-	userId, err := h.services.Authorization.ParseToken(headerParts[1])
 	if err != nil {
-		newErrorResponse(c, http.StatusUnauthorized, err.Error())
+		//...........
+	}
+
+	userID, err := utils.ValidateAccessToken(accessCookie.Value)
+	if err != nil {
+		handleRefreshFlow(c)
 		return
 	}
 
-	c.Set(userCtx, userId)
+	c.Set(userCtx, userID)
+	c.Next()
 }
 
-func getUserId(c *gin.Context) (int, error) {
-	id, ok := c.Get(userCtx)
-	if !ok {
-		return 0, errors.New("user id not found")
+func handleRefreshFlow(c *gin.Context) {
+	refreshCookie, err := c.Request.Cookie("refresh_token")
+	if err != nil {
+		newErrorResponse(c, errs.ErrorCodeToHTTPStatus[errs.ErrMissingTokens], errs.ErrMissingTokens.Error())
+		return
 	}
-	idInt, ok := id.(int)
-	if !ok {
-		return 0, errors.New("user id is of invalid type")
+
+	userID, err := utils.ValidateRefreshToken(refreshCookie.Value)
+	if err != nil {
+		newErrorResponse(c, errs.ErrorCodeToHTTPStatus[errs.ErrInvalidToken], errs.ErrInvalidToken.Error())
+		return
 	}
-	return idInt, nil
+
+	tokens, err := utils.GenerateToken(userID)
+	if err != nil {
+		newErrorResponse(c, errs.ErrorCodeToHTTPStatus[errs.ErrTokenGeneration], errs.ErrTokenGeneration.Error())
+		return
+	}
+
+	utils.SetAuthCookies(c.Writer, tokens)
+	c.Set(userCtx, userID)
+	c.Next()
 }

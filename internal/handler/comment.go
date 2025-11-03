@@ -4,13 +4,14 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/UmalatDukuev/news/internal/utils"
 	"github.com/UmalatDukuev/news/models"
 	"github.com/gin-gonic/gin"
 )
 
 func (h *Handler) createComment(c *gin.Context) {
 	postID := c.Param("id")
-	userID, _ := getUserId(c)
+	userID, _ := utils.GetUserId(c)
 	var comment models.Comment
 	comment.PostID, _ = strconv.Atoi(postID)
 	comment.UserID = userID

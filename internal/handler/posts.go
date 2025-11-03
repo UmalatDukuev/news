@@ -4,14 +4,14 @@ import (
 	"net/http"
 	"strconv"
 
+	"github.com/UmalatDukuev/news/internal/utils"
 	"github.com/UmalatDukuev/news/models"
 	"github.com/gin-gonic/gin"
 )
 
 func (h *Handler) createPost(c *gin.Context) {
 	var input models.Post
-	userID, _ := getUserId(c)
-
+	userID, _ := utils.GetUserId(c)
 	if err := c.BindJSON(&input); err != nil {
 		newErrorResponse(c, http.StatusBadRequest, "invalid input body")
 		return
@@ -34,7 +34,7 @@ func (h *Handler) updatePost(c *gin.Context) {
 	if err != nil {
 		return
 	}
-	userID, _ := getUserId(c)
+	userID, _ := utils.GetUserId(c)
 	input.AuthorID = userID
 
 	input.ID = postID

@@ -1,8 +1,6 @@
 package repository
 
 import (
-	"fmt"
-
 	"github.com/UmalatDukuev/news/models"
 	"github.com/jmoiron/sqlx"
 )
@@ -16,6 +14,5 @@ func NewTagPostgres(db *sqlx.DB) *TagPostgres {
 }
 
 func (c *TagPostgres) Create(tag models.Tag) (int, error) {
-	fmt.Println("REPO: tag created")
 	return 143, nil
 }

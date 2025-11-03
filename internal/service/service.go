@@ -7,9 +7,8 @@ import (
 
 type Authorization interface {
 	CreateUser(models.User) (int, error)
-	GenerateToken(username, password string) (string, error)
-	ParseToken(accessToken string) (int, error)
 	GetUser(username string) (models.User, error)
+	SignIn(username, password string) (models.User, error)
 }
 
 type Post interface {

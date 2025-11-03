@@ -18,7 +18,6 @@ func NewPostPostgres(db *sqlx.DB) *PostPostgres {
 func (r *PostPostgres) Create(post models.Post) (int, error) {
 	var id int
 	query := fmt.Sprintf("INSERT INTO %s (title, description, author_id) values ($1, $2, $3) RETURNING id", postsTable)
-
 	row := r.db.QueryRow(query, post.Title, post.Description, post.AuthorID)
 	if err := row.Scan(&id); err != nil {
 		return 0, err
@@ -30,12 +29,10 @@ func (r *PostPostgres) Create(post models.Post) (int, error) {
 func (r *PostPostgres) Update(post models.Post) error {
 
 	query := fmt.Sprintf("UPDATE %s SET title=$1, description=$2 WHERE id = $3", postsTable)
-	row, err := r.db.Exec(query, post.Title, post.Description, post.ID)
+	_, err := r.db.Exec(query, post.Title, post.Description, post.ID)
 	if err != nil {
 		return err
 	}
-	fmt.Println(row.RowsAffected())
-
 	return nil
 }
 

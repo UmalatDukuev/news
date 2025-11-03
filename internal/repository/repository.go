@@ -22,9 +22,8 @@ type Post interface {
 
 type Authorization interface {
 	CreateUser(models.User) (int, error)
-	// GetUser(username, password string) (models.User, error)
 	GetUser(username string) (models.User, error)
-	СheckPassword(username, passwordHash string) (bool, error)
+	CheckPassword(username, passwordHash string) (bool, error)
 }
 
 type Like interface {

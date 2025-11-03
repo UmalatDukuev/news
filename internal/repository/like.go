@@ -44,8 +44,6 @@ func (c *LikePostgres) GetAllPostLikes(postID int) ([]models.LikeOnPost, error) 
 		if err := rows.Scan(&postID, &userID, &created_at); err != nil {
 			return nil, errs.ErrScanningRows
 		}
-		fmt.Println(postID, userID, created_at)
-
 	}
 	likes := make([]models.LikeOnPost, 5)
 	return likes, nil
